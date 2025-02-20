@@ -1,0 +1,20 @@
+.post
+  = @content_html.html_safe
+
+.frontmatter
+  %dl
+    %dt Published at:
+    %dd= @post.created_at.strftime("%d %b %H:%M")
+
+    %dt Author:
+    %dd= @post.user_uuid
+
+    - if @post.parent_id
+      %dt Version:
+      %dd
+        #{@post.version}
+        %span.similarity (#{(@post.similarity * 100).round(1)}% similar)
+        = link_to "View original", post_path(@post.parent.uuid), class: "original-link"
+    - elsif @post.versions.exists?
+      %dt Versions:
+      %dd= link_to "Has #{pluralize(@post.versions.count, 'version')}", "#versions"

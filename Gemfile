@@ -62,4 +62,8 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "dope" # или другой гем для работы с markdown
+gem "text"
+gem "redcarpet"
+gem "jwt"
+gem "haml"
+gem "persey"

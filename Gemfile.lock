@@ -75,13 +75,27 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.2)
+    aws-eventstream (1.3.0)
+    aws-partitions (1.927.0)
+    aws-sdk-core (3.195.0)
+      aws-eventstream (~> 1, >= 1.3.0)
+      aws-partitions (~> 1, >= 1.651.0)
+      aws-sigv4 (~> 1.8)
+      jmespath (~> 1, >= 1.6.1)
+    aws-sdk-ssm (1.168.0)
+      aws-sdk-core (~> 3, >= 3.193.0)
+      aws-sigv4 (~> 1.1)
+    aws-sigv4 (1.8.0)
+      aws-eventstream (~> 1, >= 1.0.2)
     base64 (0.2.0)
+    bcrypt (3.1.20)
     bcrypt_pbkdf (1.1.1)
     bcrypt_pbkdf (1.1.1-arm64-darwin)
     bcrypt_pbkdf (1.1.1-x86_64-darwin)
     benchmark (0.4.0)
     bigdecimal (3.1.9)
     bindex (0.8.1)
+    blankslate (2.1.2.4)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
     brakeman (7.0.0)
@@ -97,6 +111,7 @@ GEM
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
     concurrent-ruby (1.3.5)
+    configus (0.0.5)
     connection_pool (2.5.0)
     crass (1.0.6)
     date (3.4.1)
@@ -114,12 +129,17 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    haml (6.3.0)
+      temple (>= 0.8.2)
+      thor
+      tilt
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.1.0)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
+    inifile (3.0.0)
     io-console (0.8.0)
     irb (1.15.1)
       pp (>= 0.6.0)
@@ -128,7 +148,11 @@ GEM
     jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    jmespath (1.6.2)
     json (2.10.1)
+    json-stream (1.0.0)
+    jwt (2.10.1)
+      base64
     kamal (2.5.2)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -192,6 +216,15 @@ GEM
     parser (3.3.7.1)
       ast (~> 2.4.1)
       racc
+    parslet (1.5.0)
+      blankslate (~> 2.0)
+    persey (2.0.2)
+      activesupport
+      aws-sdk-ssm (~> 1.120)
+      configus (>= 0.0.5)
+      inifile
+      json-stream
+      toml (~> 0.1.0)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -249,6 +282,7 @@ GEM
     rake (13.2.1)
     rdoc (6.12.0)
       psych (>= 4.0.0)
+    redcarpet (3.6.0)
     regexp_parser (2.10.0)
     reline (0.6.0)
       io-console (~> 0.5)
@@ -328,13 +362,18 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.4)
+    temple (0.10.3)
+    text (1.3.1)
     thor (1.3.2)
     thruster (0.1.11)
     thruster (0.1.11-aarch64-linux)
     thruster (0.1.11-arm64-darwin)
     thruster (0.1.11-x86_64-darwin)
     thruster (0.1.11-x86_64-linux)
+    tilt (2.6.0)
     timeout (0.4.3)
+    toml (0.1.2)
+      parslet (~> 1.5.0)
     turbo-rails (2.0.11)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
@@ -372,16 +411,21 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  bcrypt
   bootsnap
   brakeman
   capybara
   debug
+  haml
   importmap-rails
   jbuilder
+  jwt
   kamal
+  persey
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.0)
+  redcarpet
   rubocop-rails-omakase
   selenium-webdriver
   solid_cable
@@ -389,6 +433,7 @@ DEPENDENCIES
   solid_queue
   sqlite3 (>= 2.1)
   stimulus-rails
+  text
   thruster
   turbo-rails
   tzinfo-data

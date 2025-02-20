@@ -12,12 +12,20 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  # API routes
   namespace :api do
-    namespace :v1 do
-      resources :registrations, only: [ :create ]
-      resources :posts, only: [ :create ]
-    end
+    resources :users, only: [ :create ]
+    resources :posts, only: [ :create ]
   end
 
-  get "posts/:user_id/:uuid", to: "posts#show"
+  scope module: :web do
+    root "pages#home"
+
+    get "posts/:user_uuid_tail/:post_uuid_tail", to: "posts#show", as: :post
+    resources :posts, only: [ :index ] do
+      collection do
+        get :latest
+      end
+    end
+  end
 end

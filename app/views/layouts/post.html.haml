@@ -1,0 +1,27 @@
+!!!
+%html{lang: 'en', prefix: 'og: http://ogp.me/ns#'}
+  %head
+    %meta{charset: "utf-8"}
+    %meta{content: 'text/html; charset=UTF-8', 'http-equiv': 'Content-Type'}
+    %meta{content: 'width=640', name: 'viewport'}
+    = csrf_meta_tags
+    = csp_meta_tag
+    %link{rel: "stylesheet", href: "/application.css"}
+    %meta{content: 'Ivan Nemytchenko', name: 'author'}
+    %meta{property: 'og:title', content: @post.title}
+    -#%meta{property: 'og:url', content: post_url(@post.uuid)}
+    %meta{property: 'og:site_name', content: 'dopo.st'}
+    %meta{name: 'twitter:creator', content: "@#{@post.user_uuid}"}
+    %title= @post.title
+    :css
+      .page { max-width: 640px; margin: 0 auto; padding: 20px; }
+      .post { font-family: -apple-system, system-ui, sans-serif; line-height: 1.5; }
+      .frontmatter { margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
+      .frontmatter dl { display: grid; grid-template-columns: auto 1fr; gap: 10px; }
+      .frontmatter dt { color: #666; }
+      pre { background: #f5f5f5; padding: 15px; overflow-x: auto; }
+
+  %body
+    .page
+      .post
+        = yield
