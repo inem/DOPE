@@ -1,0 +1,18 @@
+modules = ["ruby-3.2", "web"]
+compile = "RAILS_ENV=production bundle install && bundle exec rails db:migrate"
+run = "bundle exec rails server -e production -b 0.0.0.0 -p 3000"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+build = [
+  "sh",
+  "-c",
+  "RAILS_ENV=production bundle install && bundle exec rails db:migrate",
+]
+run = ["sh", "-c", "bundle exec rails server -e production -b 0.0.0.0 -p 3000"]
+
+[[ports]]
+localPort = 3000
+externalPort = 80
