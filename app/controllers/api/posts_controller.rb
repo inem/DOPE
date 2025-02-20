@@ -54,15 +54,15 @@ module Api
 
     def build_response(post, message)
       {
-        url: post_url(post),
+        url: post_url(post.user.uuid, post.uuid),
         id: post.id,
         version: post.version,
         message: message
       }
     end
 
-    def post_url(post)
-      "#{root_url}posts/#{Current.user.id}/#{post.uuid}"
-    end
+    # def post_url(post)
+    #   "#{root_url}posts/#{post.user.uuid}/#{post.uuid}"
+    # end
   end
 end

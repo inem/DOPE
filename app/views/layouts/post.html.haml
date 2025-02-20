@@ -9,9 +9,9 @@
     %link{rel: "stylesheet", href: "/application.css"}
     %meta{content: 'Ivan Nemytchenko', name: 'author'}
     %meta{property: 'og:title', content: @post.title}
-    -#%meta{property: 'og:url', content: post_url(@post.uuid)}
+    %meta{property: 'og:url', content: post_url(@post.user.uuid, @post.uuid)}
     %meta{property: 'og:site_name', content: 'dopo.st'}
-    %meta{name: 'twitter:creator', content: "@#{@post.user_uuid}"}
+    %meta{name: 'twitter:creator', content: "@#{@post.user.uuid}"}
     %title= @post.title
     :css
       .page { max-width: 640px; margin: 0 auto; padding: 20px; }

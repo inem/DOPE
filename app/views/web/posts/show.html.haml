@@ -14,7 +14,7 @@
       %dd
         #{@post.version}
         %span.similarity (#{(@post.similarity * 100).round(1)}% similar)
-        = link_to "View original", post_path(@post.parent.uuid), class: "original-link"
+        = link_to "View original", post_path(@post.parent.user.uuid, @post.parent.uuid), class: "original-link"
     - elsif @post.versions.exists?
       %dt Versions:
       %dd= link_to "Has #{pluralize(@post.versions.count, 'version')}", "#versions"

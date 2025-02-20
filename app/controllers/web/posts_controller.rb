@@ -1,11 +1,11 @@
 module Web
   class PostsController < Web::ApplicationController
     def show
-      user_id = params[:user_uuid_tail]
+      user_uuid = params[:user_uuid_tail]
       post_uuid = params[:post_uuid_tail]
 
       # Находим пользователя по хвосту UUID
-      user = User.find_by(id: user_id)
+      user = User.find_by(uuid: user_uuid)
       raise ActiveRecord::RecordNotFound unless user
 
       Current.user = user
