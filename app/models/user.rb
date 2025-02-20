@@ -1,0 +1,16 @@
+class User < ApplicationRecord
+  has_secure_password
+  has_secure_token :auth_token
+  has_many :posts
+
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :uuid, presence: true, uniqueness: true
+
+  before_create :ensure_uuid
+
+  private
+
+  def ensure_uuid
+    self.uuid ||= SecureRandom.uuid
+  end
+end
