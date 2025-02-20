@@ -5,6 +5,7 @@ class PostMutator
       content_hash: draft.content_hash,
       prefix_hash: draft.prefix_hash,
       uuid: SecureRandom.uuid,
+      timestamp_id: Time.current.strftime("%Y%m%d%H%M%S").to_i.to_s(36),
       version: 1,
       latest: true,
       user: user
@@ -25,6 +26,7 @@ class PostMutator
       content_hash: draft.content_hash,
       prefix_hash: draft.prefix_hash,
       uuid: SecureRandom.uuid,
+      timestamp_id: original.timestamp_id,
       parent_id: original.id,
       similarity: actual_similarity,
       version: calculate_version(original),
@@ -33,8 +35,10 @@ class PostMutator
     )
 
     Post.transaction do
-      # Помечаем все связанные посты как неактуальные
-      mark_posts_as_not_latest(post.parent_id)
+      # Помечаем предыдущие версии как неактуальные
+      Post.where(parent_id: original.id).update_all(latest: false)
+      # Помечаем оригинальный пост как неактуальный
+      Post.where(id: original.id).update_all(latest: false)
       post.save!
     end
 
@@ -54,12 +58,5 @@ class PostMutator
     end
 
     version_count + 1
-  end
-
-  def self.mark_posts_as_not_latest(parent_id)
-    # Помечаем предыдущие версии как неактуальные
-    Post.where(parent_id: parent_id).update_all(latest: false)
-    # Помечаем оригинальный пост как неактуальный
-    Post.where(id: parent_id).update_all(latest: false)
   end
 end

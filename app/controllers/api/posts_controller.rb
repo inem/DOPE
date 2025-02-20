@@ -54,7 +54,8 @@ module Api
 
     def build_response(post, message)
       {
-        url: post_url(post.user.uuid, post.uuid),
+        # url: post_url(post.user.uuid, post.uuid),
+        url: latest_post_url(post.user.nickname, post.timestamp_id),
         id: post.id,
         version: post.version,
         message: message

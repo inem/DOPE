@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_03_20_123001) do
+ActiveRecord::Schema[8.0].define(version: 2024_03_20_123003) do
   create_table "posts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "parent_id"
@@ -23,9 +23,11 @@ ActiveRecord::Schema[8.0].define(version: 2024_03_20_123001) do
     t.string "prefix_hash"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "timestamp_id"
     t.index ["content_hash"], name: "index_posts_on_content_hash"
     t.index ["parent_id"], name: "index_posts_on_parent_id"
     t.index ["prefix_hash"], name: "index_posts_on_prefix_hash"
+    t.index ["timestamp_id"], name: "index_posts_on_timestamp_id", unique: true
     t.index ["user_id"], name: "index_posts_on_user_id"
     t.index ["uuid"], name: "index_posts_on_uuid", unique: true
   end
@@ -37,8 +39,10 @@ ActiveRecord::Schema[8.0].define(version: 2024_03_20_123001) do
     t.string "uuid", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "nickname"
     t.index ["auth_token"], name: "index_users_on_auth_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["nickname"], name: "index_users_on_nickname", unique: true
     t.index ["uuid"], name: "index_users_on_uuid", unique: true
   end
 

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     root "pages#home"
 
     get "posts/:user_uuid_tail/:post_uuid_tail", to: "posts#show", as: :post
+    get ":nickname/:timestamp_id", to: "posts#latest", as: :latest_post
     resources :posts, only: [ :index ] do
       collection do
         get :latest
