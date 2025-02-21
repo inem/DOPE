@@ -1,0 +1,6 @@
+recurring:
+  delete_scheduled_posts:
+    class: DeleteScheduledPostsJob
+    frequency: 1.day
+    # или можно использовать cron-синтаксис
+    # cron: "0 0 * * *"  # Запуск в полночь каждый день
