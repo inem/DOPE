@@ -1,7 +1,8 @@
 module Web
   class PostsController < Web::ApplicationController
     def show
-      @post = Post.find_by!(uuid: params[:uuid])
+      user = User.find_by!(nickname: params[:nickname])
+      @post = user.posts.includes(:entry, :user).find_by!(uuid: params[:uuid])
 
       # Рендерим markdown в HTML для маскированного контента
       html_content = Dope.markdown.render(@post.content)
@@ -15,14 +16,9 @@ module Web
       user = User.find_by!(nickname: params[:nickname])
       Current.user = user
 
-      # Находим оригинальный пост по timestamp_id
-      original_post = user.posts.find_by!(timestamp_id: params[:timestamp_id])
-
-      # Находим последнюю версию этого поста
-      @post = Post.includes(:parent, :versions, :user)
-        .where(parent_id: original_post.id)
-        .where(latest: true)
-        .first || original_post
+      # Находим entry по timestamp_id и берем последнюю версию
+      @entry = user.post_entries.find_by!(timestamp_id: params[:timestamp_id])
+      @post = @entry.latest_post
 
       # Рендерим markdown в HTML для маскированного контента
       html_content = Dope.markdown.render(@post.content)
@@ -32,8 +28,8 @@ module Web
     end
 
     def content
-      user = User.find_by!(uuid: params[:user_uuid_tail])
-      post = user.posts.find_by!(uuid: params[:post_uuid_tail])
+      user = User.find_by!(nickname: params[:nickname])
+      post = user.posts.find_by!(uuid: params[:uuid])
 
       # Рендерим только контент поста
       render plain: Dope.markdown.render(post.content)

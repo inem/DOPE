@@ -21,14 +21,15 @@ Rails.application.routes.draw do
   scope module: :web do
     root "pages#home"
 
-    get "posts/:user_uuid_tail/:post_uuid_tail", to: "posts#show", as: :post
-    get ":nickname/:timestamp_id", to: "posts#latest", as: :latest_post
-    resources :posts, only: [ :index ] do
-      collection do
-        get :latest
-      end
+    # Группируем все посты под /posts
+    scope "posts" do
+      # /posts/inem/abc-123 - конкретная версия поста
+      get ":nickname/:uuid", to: "posts#show", as: :post
+      # /posts/inem/abc-123/content - контент для локального приложения
+      get ":nickname/:uuid/content", to: "posts#content", as: :post_content
     end
 
-    get "/posts/:user_uuid_tail/:post_uuid_tail/content", to: "posts#content", as: :post_content
+    # /inem/76etmuqm9 - последняя версия поста по timestamp_id
+    get ":nickname/:timestamp_id", to: "posts#latest", as: :latest_post
   end
 end

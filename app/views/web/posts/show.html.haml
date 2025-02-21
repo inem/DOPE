@@ -1,7 +1,7 @@
 .page{ data: { controller: "local-auth",
                local_auth_uuid_value: @post.user.uuid,
                local_auth_port_value: @post.user.local_port,
-               local_auth_path_value: post_content_path(@post.user.uuid, @post.uuid) } }
+               local_auth_path_value: post_content_path(@post.user.nickname, @post.uuid) } }
   .post
     .content{ data: { local_auth_target: "content" }, style: "display: none;" }
       -# Сюда загрузится реальный контент если есть локальный доступ

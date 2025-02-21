@@ -3,6 +3,7 @@ class Post < ApplicationRecord
   self.primary_key = "id"
 
   belongs_to :user
+  belongs_to :entry, class_name: "PostEntry", foreign_key: "entry_id"
   belongs_to :parent, class_name: "Post", optional: true
   has_many :versions, class_name: "Post", foreign_key: "parent_id"
 
@@ -24,6 +25,8 @@ class Post < ApplicationRecord
   scope :versions, -> { where.not(parent_id: nil) }
 
   attr_accessor :user_uuid
+
+  delegate :timestamp_id, to: :entry
 
   def title
     first_line = content.to_s.lines.first.to_s.strip

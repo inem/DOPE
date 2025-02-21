@@ -1,8 +1,4 @@
 %dl.frontmatter
-  %dt Status:
-  %dd.status{ data: { local_auth_target: "status" } }
-    Checking local app...
-
   %dt Published at:
   %dd= post.created_at.strftime("%d %b %H:%M")
 
@@ -11,12 +7,16 @@
     = post.user.nickname
     %div{ data: { user: { uuid: post.user.uuid, local_port: post.user.local_port }.to_json } }
 
-  - if post.parent_id
-    %dt Version:
-    %dd
-      #{post.version}
-      %span.similarity (#{(post.similarity * 100).round(1)}% similar)
-      = link_to "View original", post_path(post.parent.user.uuid, post.parent.uuid), class: "original-link"
-  - elsif post.versions.exists?
+  - if post.entry.posts.count > 1
     %dt Versions:
-    %dd= link_to "Has #{pluralize(post.versions.count, 'version')}", "#versions"
+    %dd.versions
+      - post.entry.posts.order(version: :asc).each do |version|
+        - if version == post
+          %span.current{ style: "font-size: 1.5em;" }= version.version
+        - else
+          = link_to version.version, post_path(version.user.nickname, version.uuid), class: "version-link"
+        = " "
+
+  %dt{ style: "display: none;" } Status:
+  %dd.status{ data: { local_auth_target: "status" }, style: "display: none;" }
+    Checking local app...

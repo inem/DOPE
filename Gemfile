@@ -71,5 +71,3 @@ gem "redcarpet"
 gem "jwt"
 gem "haml"
 gem "persey"
-
-gem "faker"
