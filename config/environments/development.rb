@@ -73,4 +73,5 @@ Rails.application.configure do
   # Allow all development hosts
   config.hosts.clear # This allows all hosts in development/
   config.hosts << "dope.local"
+  config.hosts << "57e1e645-0458-44bb-8afb-74eb82ab340a-00-7dtzo9sf6ete.spock.replit.dev"
 end

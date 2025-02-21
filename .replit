@@ -11,8 +11,9 @@ build = [
   "-c",
   "RAILS_ENV=production bundle install && bundle exec rails db:migrate",
 ]
-run = ["sh", "-c", "bundle exec rails server -e production -b 0.0.0.0 -p 3000"]
+run = ["sh", "-c", "RAILS_ENV=production bundle exec rails db:migrate && bundle exec rails server -e production -b 0.0.0.0 -p 3000"]
 
 [[ports]]
 localPort = 3000
 externalPort = 80
+exposeLocalhost = true
