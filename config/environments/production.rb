@@ -95,6 +95,5 @@ config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
     "dope.top",
     /.*\.replit\.app/,
     /.*\.replit-user.*\.internal/
-  ]NV["RAILS_PRODUCTION_HOSTS"].split(",").map(&:strip)
-  end
+  ] + ENV["RAILS_PRODUCTION_HOSTS"].split(",").map(&:strip)
 end
