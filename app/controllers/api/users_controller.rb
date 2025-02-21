@@ -18,9 +18,10 @@ module Api
     # }
     def create
       uuid = params["uuid"]
-      Rails.logger.info "Registering user with UUID: #{uuid}"
+      nickname = params["nickname"]
+      Rails.logger.info "Registering user with UUID: #{uuid}, nickname: #{nickname}"
 
-      user = UserService.register!(uuid)
+      user = UserService.register!(uuid, nickname)
       Current.user = user
 
       token = generate_jwt_token(user)
@@ -28,6 +29,7 @@ module Api
       response_data = {
         status: "registered",
         uuid: user.uuid,
+        nickname: user.nickname,
         token: token
       }
 

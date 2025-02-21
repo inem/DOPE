@@ -1,5 +1,5 @@
 class UserService
-  def self.register!(uuid)
+  def self.register!(uuid, nickname = nil)
     user = User.find_by(uuid: uuid)
 
     if !user
@@ -7,7 +7,7 @@ class UserService
         uuid: uuid,
         email: "user-#{uuid[0..7]}@dope.local",
         password: SecureRandom.hex(16),
-        nickname: NicknameGenerator.generate_unique
+        nickname: nickname || NicknameGenerator.generate_unique
       )
     end
 

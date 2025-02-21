@@ -5,6 +5,8 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :uuid, presence: true, uniqueness: true
+  validates :nickname, presence: true, uniqueness: true,
+    format: { with: /\A[a-z0-9]+\z/, message: "only allows lowercase letters and numbers" }
 
   before_create :ensure_uuid
 

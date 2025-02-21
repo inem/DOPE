@@ -6,17 +6,36 @@ module Api
 
     def authenticate_user
       header = request.headers["Authorization"]
-
       if !header || !header.start_with?("Bearer ")
         Rails.logger.warn "No valid Authorization header found"
-        return render json: { error: "No valid token provided" }, status: :unauthorized
+        return render json: {
+          error: "Authentication required",
+          code: "auth_required"
+        }, status: :unauthorized
       end
 
-      Current.user = User.find_by(uuid: JwtToken.extract_uuid(header))
+      begin
+        token = header.split(" ").last
+        payload = JWT.decode(token, Rails.application.credentials.secret_key_base, true, algorithm: "HS256").first
+        Current.user = User.find_by(uuid: payload["uuid"])
+      rescue JWT::ExpiredSignature
+        return render json: {
+          error: "Token has expired",
+          code: "token_expired"
+        }, status: :unauthorized
+      rescue JWT::DecodeError
+        return render json: {
+          error: "Invalid token",
+          code: "invalid_token"
+        }, status: :unauthorized
+      end
 
       if !Current.user
-        Rails.logger.warn "User not found for UUID: #{Current.user.uuid}"
-        return render json: { error: "User not found" }, status: :unauthorized
+        Rails.logger.warn "User not found for token payload: #{payload.inspect}"
+        return render json: {
+          error: "User not found",
+          code: "user_not_found"
+        }, status: :unauthorized
       end
 
       Rails.logger.info "User authenticated: #{Current.user.uuid}"
