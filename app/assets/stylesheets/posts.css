@@ -112,3 +112,43 @@ pre {
 .post-content code {
   font-family: monospace;
 }
+
+/* Стили для постов */
+.frontmatter {
+  color: #666;
+  font-size: 14px;
+  margin: 2rem 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0rem 1rem;
+  align-items: baseline;
+}
+
+.frontmatter dt {
+  font-weight: 500;
+  color: #999;
+}
+
+.frontmatter dd {
+  margin: 0;
+}
+
+.versions {
+  font-size: 1em;
+  gap: 0.5rem;
+}
+
+.versions .current {
+  border-bottom: 2px solid #000;
+  color: #000;
+  padding-bottom: 1px;
+}
+
+.versions .version-link {
+  color: #666;
+  text-decoration: none;
+}
+
+.versions .version-link:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,21 @@
+/* Базовые стили */
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@font-face { font-family: 'body'; src: url('/fonts/IBMPlexSans-Text.woff') format('woff'); }
+@font-face { font-family: 'body'; font-style: italic; src: url('/fonts/IBMPlexSans-TextItalic.woff') format('woff'); }
+@font-face { font-family: 'body'; font-weight: 800; src: url('/fonts/IBMPlexSans-Bold.woff') format('woff'); }
+@font-face { font-family: 'mono'; src: url('/fonts/IBMPlexMono-Text-Latin1.woff') format('woff'); }
+
+body {
+  font: 18px/28px body, sans-serif;
+  background-color: #FEFEFE;
+  color: #111;
+  margin: 50px auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}

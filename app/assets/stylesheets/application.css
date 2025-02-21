@@ -1,18 +1,5 @@
-.versions {
-  font-size: 1.1em;
-}
-
-.versions .current {
-  border-bottom: 2px solid #000;
-  color: #000;
-  padding-bottom: 1px;
-}
-
-.versions .version-link {
-  color: #666;
-  text-decoration: none;
-}
-
-.versions .version-link:hover {
-  text-decoration: underline;
-}
+@import "base";
+@import "layout";
+@import "typography";
+@import "posts";
+@import "components";

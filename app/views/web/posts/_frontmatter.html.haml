@@ -12,7 +12,7 @@
     %dd.versions
       - post.entry.posts.order(version: :asc).each do |version|
         - if version == post
-          %span.current{ style: "font-size: 1.5em;" }= version.version
+          %span.current= version.version
         - else
           = link_to version.version, post_path(version.user.nickname, version.uuid), class: "version-link"
         = " "
