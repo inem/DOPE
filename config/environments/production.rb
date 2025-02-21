@@ -89,11 +89,12 @@ config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  # Основной хост приложения
-  config.hosts = [ "dopo-nemytchenko.replit.app" ]
-
-  # Дополнительные хосты из переменной окружения
-  if ENV["RAILS_PRODUCTION_HOSTS"]
-    config.hosts += ENV["RAILS_PRODUCTION_HOSTS"].split(",").map(&:strip)
+  # Allow Replit hosts and custom domains
+  config.hosts = [
+    "dope-nemytchenko.replit.app",
+    "dope.top",
+    /.*\.replit\.app/,
+    /.*\.replit-user.*\.internal/
+  ]NV["RAILS_PRODUCTION_HOSTS"].split(",").map(&:strip)
   end
 end
