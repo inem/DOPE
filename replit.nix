@@ -1,5 +1,6 @@
 {pkgs}: {
   deps = [
+    pkgs.libpqxx_6
     pkgs.libffi
     pkgs.zlib
     pkgs.readline

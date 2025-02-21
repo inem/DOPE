@@ -1,4 +1,4 @@
-modules = ["ruby-3.2", "web"]
+modules = ["ruby-3.2", "web", "", "postgresql-16"]
 compile = "RAILS_ENV=production bundle install && bundle exec rails db:migrate"
 run = "bundle exec rails server -e production -b 0.0.0.0 -p 3000"
 
