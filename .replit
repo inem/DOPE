@@ -6,12 +6,8 @@ run = "bundle exec rails server -e production -b 0.0.0.0 -p 3000"
 channel = "stable-24_05"
 
 [deployment]
-build = [
-  "sh",
-  "-c",
-  "RAILS_ENV=production bundle install && bundle exec rails db:migrate",
-]
-run = ["sh", "-c", "RAILS_ENV=production bundle exec rails db:migrate && bundle exec rails server -e production -b 0.0.0.0 -p 3000"]
+build = ["sh", "-c", "RAILS_ENV=production bundle install && bundle exec rails db:migrate"]
+run = ["sh", "-c", "bundle exec rails server -e production -b 0.0.0.0 -p 3000"]
 
 [[ports]]
 localPort = 3000
