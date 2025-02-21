@@ -13,6 +13,8 @@
     %meta{property: 'og:site_name', content: 'dopo.st'}
     %meta{name: 'twitter:creator', content: "@#{@post.user.uuid}"}
     %title= @post.title
+    %meta{name: "viewport", content: "width=device-width,initial-scale=1"}
+    = javascript_importmap_tags
 
   %body
     .page

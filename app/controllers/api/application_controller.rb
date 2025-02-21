@@ -1,10 +1,26 @@
 module Api
   class ApplicationController < ActionController::API
     before_action :authenticate_user
+    before_action :set_cors_headers
 
     private
 
+    def set_cors_headers
+      headers["Access-Control-Allow-Origin"] = "*"
+      headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+      headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, Accept"
+
+      # Для preflight OPTIONS запросов сразу возвращаем 200
+      if request.method == "OPTIONS"
+        head :ok
+        nil
+      end
+    end
+
     def authenticate_user
+      # Пропускаем аутентификацию для OPTIONS запросов
+      return true if request.method == "OPTIONS"
+
       header = request.headers["Authorization"]
       if !header || !header.start_with?("Bearer ")
         Rails.logger.warn "No valid Authorization header found"
