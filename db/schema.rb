@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_03_20_123004) do
+ActiveRecord::Schema[8.0].define(version: 2024_03_20_123005) do
   create_table "post_entries", force: :cascade do |t|
     t.string "timestamp_id", null: false
     t.integer "user_id", null: false
@@ -33,10 +33,12 @@ ActiveRecord::Schema[8.0].define(version: 2024_03_20_123004) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "entry_id", null: false
+    t.datetime "scheduled_for_deletion_at"
     t.index ["content_hash"], name: "index_posts_on_content_hash"
     t.index ["entry_id"], name: "index_posts_on_entry_id"
     t.index ["parent_id"], name: "index_posts_on_parent_id"
     t.index ["prefix_hash"], name: "index_posts_on_prefix_hash"
+    t.index ["scheduled_for_deletion_at"], name: "index_posts_on_scheduled_for_deletion_at"
     t.index ["user_id"], name: "index_posts_on_user_id"
     t.index ["uuid"], name: "index_posts_on_uuid", unique: true
   end

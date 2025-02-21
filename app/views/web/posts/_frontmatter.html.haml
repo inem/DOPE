@@ -17,6 +17,18 @@
           = link_to version.version, post_path(version.user.nickname, version.uuid), class: "version-link"
         = " "
 
+  %dt Actions:
+  %dd.actions
+    - if post.scheduled_for_deletion_at
+      .scheduled-notice
+        Scheduled for deletion at #{post.scheduled_for_deletion_at.strftime("%d %b %H:%M")}
+        %button.cancel-button{ data: { action: "click->post#handleRestore" } }
+          Restore post
+    - else
+      %button.delete-button{ data: { action: "click->post#handleDelete" } }
+        Delete post
+        %span.shortcut (Ctrl+X)
+
   %dt{ style: "display: none;" } Status:
   %dd.status{ data: { local_auth_target: "status" }, style: "display: none;" }
     Checking local app...

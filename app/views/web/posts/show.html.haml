@@ -2,7 +2,8 @@
                local_auth_uuid_value: @post.user.uuid,
                local_auth_port_value: @post.user.local_port,
                local_auth_path_value: post_content_path(@post.user.nickname, @post.uuid) } }
-  .post
+  .post{ data: { controller: "post", post_id: @post.id },
+         class: ("scheduled-for-deletion" if @post.scheduled_for_deletion_at) }
     .content{ data: { local_auth_target: "content" }, style: "display: none;" }
       -# Сюда загрузится реальный контент если есть локальный доступ
 

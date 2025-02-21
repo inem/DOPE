@@ -35,10 +35,20 @@ module Web
       render plain: Dope.markdown.render(post.content)
     end
 
-    def schedule_deletion
+    def destroy
       @post = Post.find(params[:id])
 
       if @post.update(scheduled_for_deletion_at: 1.week.from_now)
+        render json: { status: "success" }
+      else
+        render json: { status: "error" }, status: :unprocessable_entity
+      end
+    end
+
+    def restore
+      @post = Post.find(params[:id])
+
+      if @post.update(scheduled_for_deletion_at: nil)
         render json: { status: "success" }
       else
         render json: { status: "error" }, status: :unprocessable_entity

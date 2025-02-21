@@ -152,3 +152,58 @@ pre {
 .versions .version-link:hover {
   text-decoration: underline;
 }
+
+.actions {
+  margin-top: 0.5rem;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.delete-button:hover {
+  opacity: 1;
+}
+
+.shortcut {
+  color: #999;
+  font-size: 0.9em;
+}
+
+.scheduled-notice {
+  color: #e74c3c;
+  font-size: 0.9em;
+}
+
+.cancel-button {
+  background: none;
+  border: none;
+  color: #3498db;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 1rem;
+  font: inherit;
+  font-size: 0.9em;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.cancel-button:hover {
+  opacity: 1;
+}
+
+.post.scheduled-for-deletion {
+  opacity: 0.3;
+  transition: opacity 0.2s ease;
+}
+
+.post.scheduled-for-deletion:hover {
+  opacity: 0.5;
+}

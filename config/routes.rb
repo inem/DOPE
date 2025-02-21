@@ -32,6 +32,10 @@ Rails.application.routes.draw do
     # /inem/76etmuqm9 - последняя версия поста по timestamp_id
     get ":nickname/:timestamp_id", to: "posts#latest", as: :latest_post
 
-    resources :posts, only: [ :destroy ]
+    resources :posts, only: [ :destroy ] do
+      member do
+        post :restore
+      end
+    end
   end
 end
