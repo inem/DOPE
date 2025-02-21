@@ -1,23 +1,13 @@
 module Web
   class PostsController < Web::ApplicationController
     def show
-      user_uuid = params[:user_uuid_tail]
-      post_uuid = params[:post_uuid_tail]
+      @post = Post.find_by!(uuid: params[:uuid])
 
-      # Находим пользователя по UUID
-      user = User.find_by(uuid: user_uuid)
-      raise ActiveRecord::RecordNotFound unless user
+      # Рендерим markdown в HTML для маскированного контента
+      html_content = Dope.markdown.render(@post.content)
+      @masked_content = mask_content(html_content)
 
-      Current.user = user
-
-      # Находим конкретную версию поста
-      @post = Post.find_by(uuid: post_uuid)
-      raise ActiveRecord::RecordNotFound unless @post
-
-      # Загружаем родительский пост и версии
-      @post = Post.includes(:parent, :versions, :user).find(@post.id)
-
-      render_post
+      render :show, layout: "post"
     end
 
     def latest
@@ -34,22 +24,36 @@ module Web
         .where(latest: true)
         .first || original_post
 
-      render_post
+      # Рендерим markdown в HTML для маскированного контента
+      html_content = Dope.markdown.render(@post.content)
+      @masked_content = mask_content(html_content)
+
+      render :show, layout: "post"
     end
 
     def content
       user = User.find_by!(uuid: params[:user_uuid_tail])
       post = user.posts.find_by!(uuid: params[:post_uuid_tail])
 
-      # Рендерим частичный шаблон с правильной структурой
-      render partial: "content", locals: { post: post }
+      # Рендерим только контент поста
+      render plain: Dope.markdown.render(post.content)
     end
 
     private
 
-    def render_post
-      @content_html = Dope.markdown.render(@post.content)
-      render :show, layout: "post"
+    def mask_content(html_content)
+      doc = Nokogiri::HTML::DocumentFragment.parse(html_content)
+
+      # Удаляем только первый h1/h2 заголовок
+      doc.at_css("h1, h2")&.remove
+
+      doc.traverse do |node|
+        if node.text? && !node.text.strip.empty? && node.parent.name != "pre"
+          node.content = node.text.gsub(/[^\s]/, "▀")
+        end
+      end
+
+      doc.to_html
     end
   end
 end
