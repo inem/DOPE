@@ -28,5 +28,7 @@ Rails.application.routes.draw do
         get :latest
       end
     end
+
+    get "/posts/:user_uuid_tail/:post_uuid_tail/content", to: "posts#content", as: :post_content
   end
 end

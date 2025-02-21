@@ -37,6 +37,14 @@ module Web
       render_post
     end
 
+    def content
+      user = User.find_by!(uuid: params[:user_uuid_tail])
+      post = user.posts.find_by!(uuid: params[:post_uuid_tail])
+
+      # Рендерим частичный шаблон с правильной структурой
+      render partial: "content", locals: { post: post }
+    end
+
     private
 
     def render_post

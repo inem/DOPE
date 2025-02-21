@@ -1,23 +1,50 @@
-.post{ data: { controller: "local-auth" } }
-  = @content_html.html_safe
+.page{ data: { controller: "local-auth",
+               local_auth_uuid_value: @post.user.uuid,
+               local_auth_port_value: @post.user.local_port,
+               local_auth_path_value: post_content_path(@post.user.uuid, @post.uuid) } }
+  .post
+    .content{ data: { local_auth_target: "content" } }
+      %p.loading Loading...
 
-.frontmatter
-  %dl
-    %dt Published at:
-    %dd= @post.created_at.strftime("%d %b %H:%M")
+    .placeholder{ data: { local_auth_target: "placeholder" } }
+      .blur-text{ style: "filter: blur(3px);" }
+        %h2= @post.title
+        %p
+          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+          totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+        %p
+          Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
+          sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+        %p
+          Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+          adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+        %p
+          Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
+          nisi ut aliquid ex ea commodi consequatur?
+        .local-app-notice{ style: "filter: none !important;" }
+          %p Этот пост доступен только при наличии локального приложения
+          %p Установите приложение чтобы прочитать контент
 
-    %dt Author:
-    %dd
-      = @post.user.nickname
-      %span.status{ data: { local_auth_target: "status" } }
-      %div{ data: { user: { uuid: @post.user.uuid, local_port: @post.user.local_port }.to_json } }
+  .frontmatter
+    %dl
+      %dt Status:
+      %dd.status{ data: { local_auth_target: "status" } }
+        Checking local app...
 
-    - if @post.parent_id
-      %dt Version:
+      %dt Published at:
+      %dd= @post.created_at.strftime("%d %b %H:%M")
+
+      %dt Author:
       %dd
-        #{@post.version}
-        %span.similarity (#{(@post.similarity * 100).round(1)}% similar)
-        = link_to "View original", post_path(@post.parent.user.uuid, @post.parent.uuid), class: "original-link"
-    - elsif @post.versions.exists?
-      %dt Versions:
-      %dd= link_to "Has #{pluralize(@post.versions.count, 'version')}", "#versions"
+        = @post.user.nickname
+        %div{ data: { user: { uuid: @post.user.uuid, local_port: @post.user.local_port }.to_json } }
+
+      - if @post.parent_id
+        %dt Version:
+        %dd
+          #{@post.version}
+          %span.similarity (#{(@post.similarity * 100).round(1)}% similar)
+          = link_to "View original", post_path(@post.parent.user.uuid, @post.parent.uuid), class: "original-link"
+      - elsif @post.versions.exists?
+        %dt Versions:
+        %dd= link_to "Has #{pluralize(@post.versions.count, 'version')}", "#versions"
