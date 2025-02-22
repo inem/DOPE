@@ -32,27 +32,7 @@ export default class extends Controller {
       if (response.ok) {
         const data = await response.json()
         console.log("Success response:", data)
-
-        // Создаем элемент для обратного отсчета
-        const countdown = document.createElement('div')
-        countdown.style.position = 'fixed'
-        countdown.style.top = '50%'
-        countdown.style.left = '50%'
-        countdown.style.transform = 'translate(-50%, -50%)'
-        countdown.style.fontSize = '48px'
-        countdown.style.color = '#e74c3c'
-        document.body.appendChild(countdown)
-
-        // Запускаем обратный отсчет
-        let seconds = 3
-        const timer = setInterval(() => {
-          countdown.textContent = seconds
-          if (seconds <= 0) {
-            clearInterval(timer)
-            window.location.href = '/'
-          }
-          seconds--
-        }, 1000)
+        window.location.reload()
       } else {
         throw new Error('Ошибка при постановке в очередь')
       }
@@ -64,8 +44,10 @@ export default class extends Controller {
   }
 
   handleKeyPress(event) {
+    console.log("Key pressed:", event.key, "Ctrl:", event.ctrlKey)
     if (event.ctrlKey && event.key === 'x') {
       event.preventDefault()
+      console.log("Ctrl+X detected, triggering delete")
       this.handleDelete(event)
     }
   }
