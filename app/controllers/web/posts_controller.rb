@@ -1,12 +1,25 @@
 module Web
   class PostsController < Web::ApplicationController
+    before_action :set_post, only: [ :destroy, :restore, :publish, :unpublish ]
+    # before_action :check_ownership, only: [ :destroy, :restore, :publish, :unpublish ]
+
+    rescue_from StateMachines::InvalidTransition do |exception|
+      redirect_back fallback_location: root_path, alert: "Cannot change post state: #{exception.message}"
+    end
+
     def show
       user = User.find_by!(nickname: params[:nickname])
       @post = user.posts.includes(:entry, :user).find_by!(uuid: params[:uuid])
 
-      # Рендерим markdown в HTML для маскированного контента
+      # Рендерим markdown в HTML
       html_content = Dope.markdown.render(@post.content)
-      @masked_content = mask_content(html_content)
+
+      # Если пост публичный, показываем контент напрямую
+      if @post.public?
+        @masked_content = html_content
+      else
+        @masked_content = mask_content(html_content)
+      end
 
       render :show, layout: "post"
     end
@@ -36,26 +49,34 @@ module Web
     end
 
     def destroy
-      @post = Post.find(params[:id])
-
-      if @post.update(scheduled_for_deletion_at: 1.week.from_now)
-        render json: { status: "success" }
-      else
-        render json: { status: "error" }, status: :unprocessable_entity
-      end
+      @post.schedule_for_deletion
+      redirect_to post_path(@post.user.nickname, @post.uuid), notice: "Post scheduled for deletion"
     end
 
     def restore
-      @post = Post.find(params[:id])
+      @post.restore
+      redirect_to post_path(@post.user.nickname, @post.uuid), notice: "Post restored"
+    end
 
-      if @post.update(scheduled_for_deletion_at: nil)
-        render json: { status: "success" }
-      else
-        render json: { status: "error" }, status: :unprocessable_entity
-      end
+    def publish
+      @post.publish
+      redirect_to post_path(@post.user.nickname, @post.uuid), notice: "Post published"
+    end
+
+    def unpublish
+      @post.unpublish
+      redirect_to post_path(@post.user.nickname, @post.uuid), notice: "Post unpublished"
     end
 
     private
+
+    def set_post
+      @post = Post.find(params[:id])
+    end
+
+    def check_ownership
+      redirect_to root_path, alert: "Not authorized" unless @post.user == Current.user
+    end
 
     def mask_content(html_content)
       doc = Nokogiri::HTML::DocumentFragment.parse(html_content)

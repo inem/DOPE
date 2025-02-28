@@ -207,3 +207,35 @@ pre {
 .post.scheduled-for-deletion:hover {
   opacity: 0.5;
 }
+
+.publish-button {
+  background: none;
+  border: none;
+  color: #27ae60;
+  cursor: pointer;
+  padding: 0;
+  margin-right: 1rem;
+  font: inherit;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.publish-button:hover {
+  opacity: 1;
+}
+
+.unpublish-button {
+  background: none;
+  border: none;
+  color: #f39c12;
+  cursor: pointer;
+  padding: 0;
+  margin-right: 1rem;
+  font: inherit;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.unpublish-button:hover {
+  opacity: 1;
+}

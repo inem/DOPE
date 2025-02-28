@@ -19,15 +19,17 @@
 
   %dt Actions:
   %dd.actions
-    - if post.scheduled_for_deletion_at
+    - if post.scheduled_for_deletion?
       .scheduled-notice
         Scheduled for deletion at #{post.scheduled_for_deletion_at.strftime("%d %b %H:%M")}
-        %button.cancel-button{ data: { action: "click->post#handleRestore" } }
-          Restore post
+        = button_to "Restore post", restore_post_path(post.id), class: "cancel-button"
     - else
-      %button.delete-button{ data: { action: "click->post#handleDelete" } }
-        Delete post
-        %span.shortcut (Ctrl+X)
+      - if post.public?
+        = button_to "Make private", unpublish_post_path(post.id), class: "unpublish-button"
+      - else
+        = button_to "Publish", publish_post_path(post.id), class: "publish-button"
+
+      = button_to "Delete post", destroy_post_path(post.id), method: :delete, class: "delete-button"
 
   %dt{ style: "display: none;" } Status:
   %dd.status{ data: { local_auth_target: "status" }, style: "display: none;" }

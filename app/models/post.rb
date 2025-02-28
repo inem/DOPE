@@ -7,7 +7,7 @@ class Post < ApplicationRecord
   belongs_to :parent, class_name: "Post", optional: true
   has_many :versions, class_name: "Post", foreign_key: "parent_id"
 
-  # Атрибуты
+  # Attributes
   attribute :uuid, :string
   attribute :parent_id, :integer
   attribute :version, :integer
@@ -27,6 +27,45 @@ class Post < ApplicationRecord
   attr_accessor :user_uuid
 
   delegate :timestamp_id, to: :entry
+
+  # Configure state machine
+  state_machine :state, initial: :draft do
+    # Define states
+    state :draft
+    state :published
+    state :scheduled_for_deletion
+
+    # Define events and transitions
+    event :publish do
+      transition [ :draft, :scheduled_for_deletion ] => :published
+    end
+
+    event :unpublish do
+      transition published: :draft
+    end
+
+    event :schedule_for_deletion do
+      transition any => :scheduled_for_deletion
+    end
+
+    event :restore do
+      transition scheduled_for_deletion: :draft
+    end
+
+    # Callbacks
+    before_transition to: :scheduled_for_deletion do |post, _|
+      post.scheduled_for_deletion_at = 1.week.from_now
+    end
+
+    before_transition from: :scheduled_for_deletion, to: :draft do |post, _|
+      post.scheduled_for_deletion_at = nil
+    end
+  end
+
+  # Helper method
+  def public?
+    published?
+  end
 
   def title
     first_line = content.to_s.lines.first.to_s.strip

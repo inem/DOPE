@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :users, only: [ :create ]
     resources :posts, only: [ :create ]
+    post "refresh_token", to: "auth#refresh_token"
   end
 
   scope module: :web do
@@ -32,10 +33,13 @@ Rails.application.routes.draw do
     # /inem/76etmuqm9 - последняя версия поста по timestamp_id
     get ":nickname/:timestamp_id", to: "posts#latest", as: :latest_post
 
-    resources :posts, only: [ :destroy ] do
+    resources :posts, only: [] do
       member do
         post :restore
+        post :publish
+        post :unpublish
       end
     end
+    delete "posts/:id", to: "posts#destroy", as: :destroy_post
   end
 end
