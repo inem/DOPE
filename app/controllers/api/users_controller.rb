@@ -5,10 +5,7 @@ module Api
 
     # POST http://dope.local:8080/register
     # Content-Type: application/json
-    # Пример запроса:
-    # {
-    #     "uuid": "c3993f47-bad2-4fa0-9aea-3fa479ee847c"
-    # }
+    # Request body: {"nickname":"inem","port":34657,"uuid":"da561e9c-e1ad-4fd7-8cef-1b59888cafd5"}
     #
     # Пример ответа:
     # {

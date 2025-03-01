@@ -1,18 +1,23 @@
 class UserService
-  def self.register!(uuid, nickname = nil, port = nil)
+  def self.register!(uuid, nickname, port)
+    # Check if user already exists
     user = User.find_by(uuid: uuid)
 
-    if !user
+    if user
+      # Update existing user's information
+      user.update!(
+        nickname: nickname,
+        local_port: port  # Make sure this line exists to save the port
+      )
+    else
+      # Create a new user
       user = User.create!(
         uuid: uuid,
-        email: "user-#{uuid[0..7]}@dope.local",
-        password: SecureRandom.hex(16),
-        nickname: nickname || NicknameGenerator.generate_unique,
-        local_port: port
+        nickname: nickname,
+        local_port: port,  # Ensure port is being saved
+        email: "#{uuid}@example.com",  # Since email is required but we don't have it
+        password: SecureRandom.hex(10)  # Generate a random password
       )
-    elsif port && user.local_port != port
-      # Обновляем порт если он изменился
-      user.update!(local_port: port)
     end
 
     user
