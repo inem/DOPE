@@ -37,6 +37,7 @@ module Api
     rescue => e
       Rails.logger.error "Registration error: #{e.message}"
       Rails.logger.error e.backtrace.join("\n")
+      Appsignal.send_error(e)
       render json: { error: e.message }, status: :unprocessable_entity
     end
 

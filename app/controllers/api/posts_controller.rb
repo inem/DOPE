@@ -29,6 +29,7 @@ module Api
       end
     rescue => e
       Rails.logger.error "Post creation failed: #{e.message}"
+      Appsignal.send_error(e)
       render json: { error: e.message }, status: :unprocessable_entity
     end
 
