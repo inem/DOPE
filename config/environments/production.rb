@@ -94,7 +94,8 @@ config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
     "dope-nemytchenko.replit.app",
     "dope.top",
     /.*\.replit\.app/,
-    /.*\.replit-user.*\.internal/
+    /.*\.replit-user.*\.internal/,
+    /.*\.spock\.replit\.dev/
   ]
 
   # Проверьте эти настройки
