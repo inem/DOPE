@@ -32,7 +32,7 @@ module Api
 
       begin
         token = header.split(" ").last
-        payload = JWT.decode(token, Rails.application.credentials.secret_key_base, true, algorithm: "HS256").first
+        payload = JwtHandler.decode(token)
         Current.user = User.find_by(uuid: payload["uuid"])
       rescue JWT::ExpiredSignature
         return render json: {
