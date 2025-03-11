@@ -77,7 +77,7 @@ module Api
       process :options,
         api_users_path,
         headers: {
-          "Origin": "http://127.0.0.1:34657",
+          "Origin": "http://localhost:34657",
           "Access-Control-Request-Method": "POST",
           "Access-Control-Request-Headers": "Content-Type"
         }

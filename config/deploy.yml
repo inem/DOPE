@@ -97,7 +97,7 @@ builder:
 #     image: mysql:8.0
 #     host: 192.168.0.2
 #     # Change to 3306 to expose port to the world instead of just local network.
-#     port: "127.0.0.1:3306:3306"
+#     port: "localhost:3306:3306"
 #     env:
 #       clear:
 #         MYSQL_ROOT_HOST: '%'

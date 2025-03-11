@@ -74,5 +74,5 @@ Rails.application.configure do
   config.hosts.clear # This allows all hosts in development/
   config.hosts << "dope.local"
   config.hosts << "*.replit.dev"
-  config.hosts << "127.0.0.1:3333"
+  config.hosts << "localhost:3333"
 end

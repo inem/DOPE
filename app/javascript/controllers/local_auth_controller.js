@@ -14,7 +14,7 @@ export default class extends Controller {
 
   async checkLocalServer() {
     try {
-      const response = await fetch(`http://127.0.0.1:${this.portValue}/ping`, {
+      const response = await fetch(`http://localhost:${this.portValue}/ping`, {
         headers: { "Accept": "application/json" }
       })
 
