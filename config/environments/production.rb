@@ -96,4 +96,9 @@ config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
     /.*\.replit\.app/,
     /.*\.replit-user.*\.internal/
   ]
+
+  # Проверьте эти настройки
+  config.assets.compile = false  # Должно быть false для производительности
+  config.assets.digest = true    # Должно быть true для кэширования
+  config.public_file_server.enabled = true  # Должно быть true для обслуживания статики
 end
